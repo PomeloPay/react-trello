@@ -140,6 +140,7 @@ class BoardContainer extends Component {
       shouldLaneAnimateDrop,
       onCardMoveAcrossLanes,
       t,
+      LaneContainerProps,
       ...otherProps
     } = this.props
 
@@ -167,7 +168,8 @@ class BoardContainer extends Component {
       'handleDragEnd',
       'cardDragClass',
       'editLaneTitle',
-      't'
+      't',
+      'CardContainerProps'
     ])
 
     return (
@@ -183,7 +185,9 @@ class BoardContainer extends Component {
             shouldAcceptDrop={shouldLaneAcceptDrop || this.shouldLaneAccepDrop}
             shouldAnimateDrop={shouldLaneAnimateDrop}
             getChildPayload={index => this.getLaneDetails(index)}
-            groupName={this.groupName}>
+            groupName={this.groupName}
+            {...LaneContainerProps}
+          >
             {reducerData.lanes.map((lane, index) => {
               const {id, droppable, ...otherProps} = lane
               const laneToRender = (
@@ -256,6 +260,7 @@ BoardContainer.propTypes = {
   handleLaneDragEnd: PropTypes.func,
   style: PropTypes.object,
   tagStyle: PropTypes.object,
+  LaneContainerProps: PropTypes.object,
   laneDraggable: PropTypes.bool,
   cardDraggable: PropTypes.bool,
   cardDragClass: PropTypes.string,
@@ -285,7 +290,9 @@ BoardContainer.defaultProps = {
   cardDraggable: true,
   cardDragClass: 'react_trello_dragClass',
   laneDragClass: 'react_trello_dragLaneClass',
-  laneDropClass: ''
+  laneDropClass: '',
+  LaneContainerProps: {},
+  CardContainerProps: {},
 }
 
 const mapStateToProps = state => {

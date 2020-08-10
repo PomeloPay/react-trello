@@ -5,18 +5,18 @@ import {Title, LaneHeader, RightContent } from 'rt/styles/Base'
 import LaneMenu from './LaneHeader/LaneMenu'
 
 const LaneHeaderComponent = ({
-  updateTitle, canAddLanes, onDelete, onDoubleClick, editLaneTitle, label, title, titleStyle, labelStyle, t, laneDraggable
+  updateTitle, canAddLanes, onDelete, onDoubleClick, editLaneTitle, label, title, titleClassName, titleStyle, labelStyle, labelClassName, t, laneDraggable
 }) => {
 
   return (
     <LaneHeader onDoubleClick={onDoubleClick} editLaneTitle={editLaneTitle}>
-      <Title draggable={laneDraggable} style={titleStyle}>
+      <Title draggable={laneDraggable} style={titleStyle} className={titleClassName}>
       {editLaneTitle ?
         <InlineInput value={title} border placeholder={t('placeholder.title')} resize='vertical' onSave={updateTitle} /> :
         title
       }
       </Title>
-      {label && (
+      {!!label && (
         <RightContent>
           <span style={labelStyle}>{label}</span>
         </RightContent>
@@ -32,6 +32,8 @@ LaneHeaderComponent.propTypes = {
   canAddLanes: PropTypes.bool,
   laneDraggable: PropTypes.bool,
   label: PropTypes.string,
+  titleClassName: PropTypes.string,
+  labelClassName: PropTypes.string,
   title: PropTypes.string,
   onDelete: PropTypes.func,
   onDoubleClick: PropTypes.func,

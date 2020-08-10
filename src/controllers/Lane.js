@@ -154,7 +154,6 @@ class Lane extends Component {
       tagStyle,
       cardStyle,
       components,
-      cardLockAxis,
       renderLaneContent,
       t
     } = this.props
@@ -194,18 +193,20 @@ class Lane extends Component {
           groupName={this.groupName}
           dragClass={cardDragClass}
           dropClass={cardDropClass}
-          cardLockAxis={!cardLockAxis ? undefined : cardLockAxis}
           onDragStart={this.onDragStart}
           onDrop={e => this.onDragEnd(id, e)}
           onDragEnter={() => this.setState({isDraggingOver: true})}
           onDragLeave={() => this.setState({isDraggingOver: false})}
           shouldAcceptDrop={this.shouldAcceptDrop}
-          getChildPayload={index => this.props.getCardDetails(id, index)}>
+          getChildPayload={index => this.props.getCardDetails(id, index)}
+          {...CardContainerProps}
+        >
           {renderLaneContent ? renderLaneContent({
             ...this.props,
             collapsed,
             addCardMode,
-            sortedCards
+            sortedCards,
+            cardList
           }) : (
             cardList
           )}
