@@ -1,6 +1,6 @@
 {
   "name": "@pomelopay/react-trello",
-  "version": "2.4.2",
+  "version": "2.4.3",
   "description": "Pluggable components to add a trello like kanban board to your application",
   "main": "dist/index.js",
   "files": [
@@ -24,7 +24,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/PomeloPay/react-trello"
+    "url": "git://github.com/PomeloPay/react-trello.git"
   },
   "keywords": [
     "react",
