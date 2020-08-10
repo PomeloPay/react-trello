@@ -311,7 +311,6 @@ Lane.propTypes = {
   onLaneUpdate: PropTypes.func,
   onLaneClick: PropTypes.func,
   onLaneScroll: PropTypes.func,
-  renderLaneContent: PropTypes.func,
   editable: PropTypes.bool,
   laneDraggable: PropTypes.bool,
   cardDraggable: PropTypes.bool,
