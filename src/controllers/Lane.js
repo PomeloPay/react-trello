@@ -154,13 +154,16 @@ class Lane extends Component {
       tagStyle,
       cardStyle,
       components,
+      CardContainerProps,
       t
     } = this.props
     const {addCardMode, collapsed} = this.state
 
     const showableCards = collapsed ? [] : cards
 
-    const cardList = this.sortCards(showableCards, laneSortFunction).map((card, idx) => {
+    const sortedCards = this.sortCards(showableCards, laneSortFunction)
+    
+    const cardList = sortedCards.map((card, idx) => {
       const onDeleteCard = () => this.removeCard(card.id)
       const cardToRender = (
         <components.Card
@@ -182,6 +185,14 @@ class Lane extends Component {
         <span key={card.id}>{cardToRender}</span>
       )
     })
+    
+    const laneContentProps = {
+      ...this.props,
+      collapsed,
+      addCardMode,
+      sortedCards,
+      cardList
+    }
 
     return (
       <components.ScrollableLane ref={this.laneDidMount} isDraggingOver={isDraggingOver}>
@@ -195,8 +206,12 @@ class Lane extends Component {
           onDragEnter={() => this.setState({isDraggingOver: true})}
           onDragLeave={() => this.setState({isDraggingOver: false})}
           shouldAcceptDrop={this.shouldAcceptDrop}
-          getChildPayload={index => this.props.getCardDetails(id, index)}>
-          {cardList}
+          getChildPayload={index => this.props.getCardDetails(id, index)}
+          {...CardContainerProps}
+        >
+          {components.LaneContent ? <components.LaneContent {...laneContentProps} /> : (
+            cardList
+          )}
         </Container>
         {editable && !addCardMode && <components.AddCardLink onClick={this.showEditableCard} t={t} />}
         {addCardMode && (
