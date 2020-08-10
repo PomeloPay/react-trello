@@ -154,7 +154,7 @@ class Lane extends Component {
       tagStyle,
       cardStyle,
       components,
-      renderLaneContent,
+      CardContainerProps,
       t
     } = this.props
     const {addCardMode, collapsed} = this.state
@@ -185,6 +185,14 @@ class Lane extends Component {
         <span key={card.id}>{cardToRender}</span>
       )
     })
+    
+    const laneContentProps = {
+      ...this.props,
+      collapsed,
+      addCardMode,
+      sortedCards,
+      cardList
+    }
 
     return (
       <components.ScrollableLane ref={this.laneDidMount} isDraggingOver={isDraggingOver}>
@@ -201,13 +209,7 @@ class Lane extends Component {
           getChildPayload={index => this.props.getCardDetails(id, index)}
           {...CardContainerProps}
         >
-          {renderLaneContent ? renderLaneContent({
-            ...this.props,
-            collapsed,
-            addCardMode,
-            sortedCards,
-            cardList
-          }) : (
+          {components.LaneContent ? <components.LaneContent {...laneContentProps} /> : (
             cardList
           )}
         </Container>
