@@ -1,5 +1,5 @@
 {
-  "name": "@pomelo-pay/react-trello",
+  "name": "@pomelopay/react-trello",
   "version": "2.4.2",
   "description": "Pluggable components to add a trello like kanban board to your application",
   "main": "dist/index.js",
@@ -37,6 +37,9 @@
     "url": "https://github.com/PomeloPay/react-trello/issues"
   },
   "homepage": "https://github.com/PomeloPay/react-trello",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "dependencies": {
     "autosize": "^4.0.2",
     "classnames": "^2.2.6",
@@ -51,7 +54,6 @@
     "trello-smooth-dnd": "1.0.0",
     "uuid": "^3.3.2"
   },
-  "publishConfig": { "registry": "https://npm.pkg.github.com/" },
   "devDependencies": {
     "@babel/cli": "7.1.2",
     "@babel/core": "^7.1.2",
