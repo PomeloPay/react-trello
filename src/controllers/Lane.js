@@ -154,13 +154,17 @@ class Lane extends Component {
       tagStyle,
       cardStyle,
       components,
+      cardLockAxis,
+      renderLaneContent,
       t
     } = this.props
     const {addCardMode, collapsed} = this.state
 
     const showableCards = collapsed ? [] : cards
 
-    const cardList = this.sortCards(showableCards, laneSortFunction).map((card, idx) => {
+    const sortedCards = this.sortCards(showableCards, laneSortFunction)
+    
+    const cardList = sortedCards.map((card, idx) => {
       const onDeleteCard = () => this.removeCard(card.id)
       const cardToRender = (
         <components.Card
@@ -190,13 +194,21 @@ class Lane extends Component {
           groupName={this.groupName}
           dragClass={cardDragClass}
           dropClass={cardDropClass}
+          cardLockAxis={!cardLockAxis ? undefined : cardLockAxis}
           onDragStart={this.onDragStart}
           onDrop={e => this.onDragEnd(id, e)}
           onDragEnter={() => this.setState({isDraggingOver: true})}
           onDragLeave={() => this.setState({isDraggingOver: false})}
           shouldAcceptDrop={this.shouldAcceptDrop}
           getChildPayload={index => this.props.getCardDetails(id, index)}>
-          {cardList}
+          {renderLaneContent ? renderLaneContent({
+            ...this.props,
+            collapsed,
+            addCardMode,
+            sortedCards
+          }) : (
+            cardList
+          )}
         </Container>
         {editable && !addCardMode && <components.AddCardLink onClick={this.showEditableCard} t={t} />}
         {addCardMode && (
@@ -296,6 +308,7 @@ Lane.propTypes = {
   onLaneUpdate: PropTypes.func,
   onLaneClick: PropTypes.func,
   onLaneScroll: PropTypes.func,
+  renderLaneContent: PropTypes.func,
   editable: PropTypes.bool,
   laneDraggable: PropTypes.bool,
   cardDraggable: PropTypes.bool,

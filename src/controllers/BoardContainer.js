@@ -108,6 +108,11 @@ class BoardContainer extends Component {
     return `TrelloBoard${id}`
   }
 
+  shouldLaneAccepDrop = (sourceContainerOptions, payload) => {
+    const { laneDroppable } = payload
+    return typeof laneDroppable === 'undefined' ? false : !!laneDroppable
+  }
+  
   render() {
     const {
       id,
@@ -131,6 +136,8 @@ class BoardContainer extends Component {
       editable,
       canAddLanes,
       laneStyle,
+      shouldLaneAcceptDrop,
+      shouldLaneAnimateDrop,
       onCardMoveAcrossLanes,
       t,
       ...otherProps
@@ -173,6 +180,8 @@ class BoardContainer extends Component {
             dropClass={laneDropClass}
             onDrop={this.onLaneDrop}
             lockAxis="x"
+            shouldAcceptDrop={shouldLaneAcceptDrop || this.shouldLaneAccepDrop}
+            shouldAnimateDrop={shouldLaneAnimateDrop}
             getChildPayload={index => this.getLaneDetails(index)}
             groupName={this.groupName}>
             {reducerData.lanes.map((lane, index) => {
@@ -194,6 +203,12 @@ class BoardContainer extends Component {
                   {...passthroughProps}
                 />
               )
+              
+              if (typeof lane.draggable === 'boolean') {
+                return lane.draggable ? <Draggable key={lane.id}>{laneToRender}</Draggable> : laneToRender
+              }
+              
+              
               return draggable && laneDraggable ? <Draggable key={lane.id}>{laneToRender}</Draggable> : laneToRender
             })}
           </Container>
@@ -227,6 +242,8 @@ BoardContainer.propTypes = {
   onLaneDelete: PropTypes.func,
   onLaneClick: PropTypes.func,
   onLaneUpdate: PropTypes.func,
+  shouldLaneAccepDrop: () => {},
+  shouldLaneAnimateDrop: () => {},
   laneSortFunction: PropTypes.func,
   draggable: PropTypes.bool,
   collapsibleLanes: PropTypes.bool,
